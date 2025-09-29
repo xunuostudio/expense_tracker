@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6454633437953473"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>個人記帳管理系統</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 個人記帳管理系統</h1>
+            <p>有效管理您的財務和預算</p>
+        </header>
+
+        <!-- Total Assets Display -->
+        <section class="total-assets-section">
+            <div class="assets-grid">
+                <div class="asset-card total-assets-card">
+                    <div class="asset-icon">💰</div>
+                    <div class="asset-info">
+                        <h3>總資產</h3>
+                        <p class="asset-amount" id="total-assets">NT$0</p>
+                    </div>
+                </div>
+                <div class="asset-card income-card">
+                    <div class="asset-icon">📈</div>
+                    <div class="asset-info">
+                        <h3>今日收入</h3>
+                        <p class="asset-amount" id="today-income">NT$0</p>
+                    </div>
+                </div>
+                <div class="asset-card expense-card">
+                    <div class="asset-icon">📉</div>
+                    <div class="asset-info">
+                        <h3>今日支出</h3>
+                        <p class="asset-amount" id="today-expense">NT$0</p>
+                    </div>
+                </div>
+                <div class="asset-card balance-card">
+                    <div class="asset-icon">⚖️</div>
+                    <div class="asset-info">
+                        <h3>今日餘額</h3>
+                        <p class="asset-amount" id="today-net">NT$0</p>
+                    </div>
+                </div>
+            </div>
+            <div class="asset-controls">
+                <button class="reset-btn" onclick="resetAllData()">🔄 全部歸零</button>
+                <button class="init-btn" onclick="setInitialAssets()">⚙️ 設定初始值</button>
+            </div>
+        </section>
+
+        <!-- Assets Overview Section -->
+        <section class="assets-section">
+            <h2>📊 資產管理</h2>
+            <div class="assets-grid">
+                <div class="asset-card" id="bank-card" onclick="quickAddTransaction('bank')">
+                    <div class="asset-icon">🏦</div>
+                    <div class="asset-info">
+                        <h3>銀行存款</h3>
+                        <p class="asset-amount" id="bank-amount">NT$0</p>
+                        <small>點擊新增交易</small>
+                    </div>
+                </div>
+                <div class="asset-card" id="cash-card" onclick="quickAddTransaction('cash')">
+                    <div class="asset-icon">💵</div>
+                    <div class="asset-info">
+                        <h3>現金</h3>
+                        <p class="asset-amount" id="cash-amount">NT$0</p>
+                        <small>點擊新增交易</small>
+                    </div>
+                </div>
+                <div class="asset-card" id="credit-cards-card" onclick="quickAddTransaction('credit')">
+                    <div class="asset-icon">💳</div>
+                    <div class="asset-info">
+                        <h3>信用卡</h3>
+                        <p class="asset-amount" id="credit-total">NT$0</p>
+                        <small>點擊新增交易</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <!-- Charts Section -->
+        <section class="charts-section">
+            <div class="charts-header">
+                <h2>📈 支出分析</h2>
+                <div class="time-selector">
+                    <button class="time-btn active" id="daily-btn" onclick="selectTimeRange('daily')">當日</button>
+                    <button class="time-btn" id="monthly-btn" onclick="selectTimeRange('monthly')">當月</button>
+                    <button class="time-btn" id="yearly-btn" onclick="selectTimeRange('yearly')">當年</button>
+                    <div class="month-buttons" id="month-buttons" style="display: none;">
+                        <button class="month-btn" onclick="selectMonth(0)">1月</button>
+                        <button class="month-btn" onclick="selectMonth(1)">2月</button>
+                        <button class="month-btn" onclick="selectMonth(2)">3月</button>
+                        <button class="month-btn" onclick="selectMonth(3)">4月</button>
+                        <button class="month-btn" onclick="selectMonth(4)">5月</button>
+                        <button class="month-btn" onclick="selectMonth(5)">6月</button>
+                        <button class="month-btn" onclick="selectMonth(6)">7月</button>
+                        <button class="month-btn" onclick="selectMonth(7)">8月</button>
+                        <button class="month-btn" onclick="selectMonth(8)">9月</button>
+                        <button class="month-btn" onclick="selectMonth(9)">10月</button>
+                        <button class="month-btn" onclick="selectMonth(10)">11月</button>
+                        <button class="month-btn" onclick="selectMonth(11)">12月</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-layout">
+                <div class="chart-container">
+                    <canvas id="expenseChart"></canvas>
+                    <div class="chart-date-info" id="chart-date-info">
+                        <!-- Date info will be populated by JavaScript -->
+                    </div>
+                </div>
+                <div class="expense-details" id="expense-details">
+                    <div class="details-header">
+                        <h3 id="selected-category" style="display: none;">當月交易細項</h3>
+                        <button class="back-btn" id="back-btn" onclick="showAllCategories()" style="display: none;">← 返回當月</button>
+                    </div>
+                    <div class="transaction-layout">
+                        <div class="date-selector-container">
+                            <div class="date-selector-group">
+                                <label for="transaction-month">選擇月份：</label>
+                                <select id="transaction-month" onchange="updateTransactionDetails()">
+                                    <option value="">全部月份</option>
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        <div class="transaction-sections">
+                            <div class="transaction-section income-section">
+                                <div class="section-header">
+                                    <h4>📈 收入</h4>
+                                </div>
+                                <div class="transaction-list" id="income-list">
+                                    <!-- Income transactions will be populated here -->
+                                </div>
+                                <div class="pagination" id="income-pagination" style="display: none;">
+                                    <button class="page-btn prev-btn" onclick="changePage('income', -1)">上一頁</button>
+                                    <span class="page-info" id="income-page-info">第 1 頁，共 1 頁</span>
+                                    <button class="page-btn next-btn" onclick="changePage('income', 1)">下一頁</button>
+                                </div>
+                            </div>
+                            <div class="transaction-section expense-section">
+                                <div class="section-header">
+                                    <h4>📉 支出</h4>
+                                </div>
+                                <div class="transaction-list" id="expense-list">
+                                    <!-- Expense transactions will be populated here -->
+                                </div>
+                                <div class="pagination" id="expense-pagination" style="display: none;">
+                                    <button class="page-btn prev-btn" onclick="changePage('expense', -1)">上一頁</button>
+                                    <span class="page-info" id="expense-page-info">第 1 頁，共 1 頁</span>
+                                    <button class="page-btn next-btn" onclick="changePage('expense', 1)">下一頁</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+    <!-- Credit Cards Modal -->
+    <div id="credit-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>管理信用卡</h3>
+            <div class="credit-cards-list" id="credit-cards-list">
+                <!-- Credit cards will be populated here -->
+            </div>
+            <button class="add-card-btn" onclick="addCreditCard()">+ 新增信用卡</button>
+        </div>
+    </div>
+
+    <!-- Quick Transaction Modal -->
+    <div id="quick-transaction-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 id="quick-modal-title">快速新增交易</h3>
+            <form id="quick-transaction-form">
+                <div class="form-group">
+                    <label>交易類型</label>
+                    <div class="transaction-type-buttons">
+                        <button type="button" class="type-btn income-btn active" data-type="income">收入</button>
+                        <button type="button" class="type-btn expense-btn" data-type="expense">支出</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="quick-amount">金額</label>
+                    <input type="number" id="quick-amount" step="1" min="0" required>
+                </div>
+                <div class="form-group" id="payment-method-group" style="display: none;">
+                    <label>繳清方式：</label>
+                    <div class="payment-method-buttons">
+                        <button type="button" class="payment-method-btn" onclick="selectPaymentMethod('bank')">從銀行資產繳清</button>
+                        <button type="button" class="payment-method-btn" onclick="selectPaymentMethod('cash')">從身上現金繳清</button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quick-category">類別</label>
+                        <select id="quick-category" required onchange="handleCategoryChange()">
+                            <!-- Categories will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quick-date">日期</label>
+                        <input type="date" id="quick-date" required>
+                    </div>
+                </div>
+                <div class="form-group" id="custom-category-group" style="display: none;">
+                    <label for="custom-category">自訂類別</label>
+                    <input type="text" id="custom-category" placeholder="請輸入自訂類別名稱">
+                </div>
+                <div class="form-group">
+                    <label for="quick-notes">備註</label>
+                    <input type="text" id="quick-notes" placeholder="可選的交易備註">
+                </div>
+                <button type="submit" class="submit-btn">新增交易</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Reset Confirmation Modal -->
+    <div id="reset-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>⚠️ 確認歸零</h3>
+            <p>您確定要將所有數據歸零嗎？</p>
+            <p class="warning-text">此操作將清空：</p>
+            <ul class="reset-list">
+                <li>所有交易記錄</li>
+                <li>銀行存款餘額</li>
+                <li>現金餘額</li>
+                <li>所有信用卡記錄</li>
+            </ul>
+            <p class="warning-text">此操作無法復原！</p>
+            <div class="reset-buttons">
+                <button class="cancel-btn" onclick="closeModal()">取消</button>
+                <button class="confirm-reset-btn" onclick="confirmReset()">確認歸零</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Initial Assets Modal -->
+    <div id="initial-assets-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>⚙️ 設定初始資產</h3>
+            <p>設定您的初始資產金額，這些金額會作為計算的基礎。</p>
+            <form id="initial-assets-form">
+                <div class="form-group">
+                    <label for="initial-bank">初始銀行存款</label>
+                    <input type="number" id="initial-bank" step="1" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="initial-cash">初始現金</label>
+                    <input type="number" id="initial-cash" step="1" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="initial-credit">初始信用卡餘額</label>
+                    <input type="number" id="initial-credit" step="1" value="0">
+                    <small>負數表示負債</small>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="cancel-btn" onclick="closeModal()">取消</button>
+                    <button type="submit" class="submit-btn">儲存設定</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Allowance Withdrawal Modal -->
+    <div id="allowance-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3>💵 零用錢領取</h3>
+            <p>您要從銀行存款中領取這筆零用錢嗎？</p>
+            <div class="allowance-info">
+                <div class="info-item">
+                    <span class="label">領取金額：</span>
+                    <span class="amount" id="allowance-amount">NT$0</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">目前銀行餘額：</span>
+                    <span class="amount" id="current-bank-balance">NT$0</span>
+                </div>
+            </div>
+            <div class="allowance-buttons">
+                <button class="cancel-btn" onclick="closeModal()">取消</button>
+                <button class="confirm-btn" onclick="confirmAllowanceWithdrawal()">確認領取</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
