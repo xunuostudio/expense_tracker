@@ -83,38 +83,6 @@ class BudgetApp {
         this.saveDataForIP(this.data);
     }
 
-    // 顯示IP狀態信息
-    showIPStatus() {
-        // 創建IP狀態顯示元素
-        const statusDiv = document.createElement('div');
-        statusDiv.id = 'ip-status';
-        statusDiv.style.cssText = `
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            z-index: 1000;
-            font-family: monospace;
-        `;
-        
-        const allIPData = this.getAllIPData();
-        const hasData = allIPData[this.currentIP];
-        const statusText = hasData ? 
-            `📍 IP: ${this.currentIP} (已載入數據)` : 
-            `📍 IP: ${this.currentIP} (新初始化)`;
-        
-        statusDiv.textContent = statusText;
-        document.body.appendChild(statusDiv);
-        
-        // 3秒後淡出
-        setTimeout(() => {
-            statusDiv.style.opacity = '0.5';
-        }, 3000);
-    }
 
 
     async init() {
@@ -134,8 +102,6 @@ class BudgetApp {
             this.initializeDateSelectors();
             // Show today's expenses after chart is initialized
             this.showTodayExpenses();
-            // 顯示IP狀態信息
-            this.showIPStatus();
         }, 100);
     }
 
@@ -1633,57 +1599,6 @@ class BudgetApp {
         this.showSuccessMessage('信用卡繳清記錄已新增');
     }
 
-    // 管理所有IP數據
-    manageAllIPData() {
-        const allIPData = this.getAllIPData();
-        const ipList = Object.keys(allIPData);
-        
-        if (ipList.length === 0) {
-            alert('目前沒有保存任何IP的數據');
-            return;
-        }
-        
-        let message = '已保存的IP數據：\n\n';
-        ipList.forEach(ip => {
-            const data = allIPData[ip];
-            const transactionCount = data.transactions ? data.transactions.length : 0;
-            const bankBalance = data.assets ? data.assets.bank : 0;
-            const cashBalance = data.assets ? data.assets.cash : 0;
-            message += `📍 IP: ${ip}\n`;
-            message += `   交易筆數: ${transactionCount}\n`;
-            message += `   銀行餘額: NT$${bankBalance}\n`;
-            message += `   現金餘額: NT$${cashBalance}\n\n`;
-        });
-        
-        message += '選擇操作：\n';
-        message += '1. 清除所有IP數據\n';
-        message += '2. 清除特定IP數據\n';
-        message += '3. 取消';
-        
-        const choice = prompt(message);
-        
-        if (choice === '1') {
-            if (confirm('確定要清除所有IP的數據嗎？此操作無法復原！')) {
-                localStorage.removeItem('budgetAppDataByIP');
-                alert('所有IP數據已清除');
-                location.reload();
-            }
-        } else if (choice === '2') {
-            const ipToDelete = prompt('請輸入要清除的IP地址：');
-            if (ipToDelete && allIPData[ipToDelete]) {
-                if (confirm(`確定要清除IP ${ipToDelete} 的數據嗎？`)) {
-                    delete allIPData[ipToDelete];
-                    localStorage.setItem('budgetAppDataByIP', JSON.stringify(allIPData));
-                    alert(`IP ${ipToDelete} 的數據已清除`);
-                    if (ipToDelete === this.currentIP) {
-                        location.reload();
-                    }
-                }
-            } else {
-                alert('IP地址不存在');
-            }
-        }
-    }
 
     closeModal() {
         document.querySelectorAll('.modal').forEach(modal => {
@@ -1782,9 +1697,6 @@ function closeModal() {
     budgetApp.closeModal();
 }
 
-function manageAllIPData() {
-    budgetApp.manageAllIPData();
-}
 
 // Initialize the app when the page loads
 let budgetApp;

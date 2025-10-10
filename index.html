@@ -1,23 +1,68 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+    <!-- Google AdSense -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6454633437953473"
      crossorigin="anonymous"></script>
+    
+    <!-- Basic Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>個人記帳管理系統</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>線上記帳工具 - 個人記帳管理系統 | 收支分析理財工具</title>
+    <meta name="description" content="免費線上記帳工具，提供完整的個人記帳管理系統。支援收支分析、資產管理、預算規劃等功能。簡單易用的理財工具，幫助您有效管理財務狀況。">
+    <meta name="keywords" content="線上記帳,記帳工具,收支分析,理財工具,個人記帳">
+    <meta name="author" content="個人記帳管理系統">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="zh-TW">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="線上記帳工具 - 個人記帳管理系統">
+    <meta property="og:description" content="免費線上記帳工具，提供完整的個人記帳管理系統。支援收支分析、資產管理、預算規劃等功能。簡單易用的理財工具，幫助您有效管理財務狀況。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com">
+    <meta property="og:image" content="https://your-domain.com/images/accounting-app-preview.jpg">
+    <meta property="og:site_name" content="個人記帳管理系統">
+    <meta property="og:locale" content="zh_TW">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="線上記帳工具 - 個人記帳管理系統">
+    <meta name="twitter:description" content="免費線上記帳工具，提供完整的個人記帳管理系統。支援收支分析、資產管理、預算規劃等功能。">
+    <meta name="twitter:image" content="https://your-domain.com/images/accounting-app-preview.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://your-domain.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="styles.css">
+    
+    <!-- External Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>💰 個人記帳管理系統</h1>
-            <p>有效管理您的財務和預算</p>
+            <h1>💰 線上記帳工具 - 個人記帳管理系統</h1>
+            <p>免費的線上記帳工具，提供完整的收支分析與理財管理功能</p>
         </header>
+
+        <main>
+            <!-- 網站介紹區塊 -->
+            <section class="intro-section">
+                <h2>專業的線上記帳工具</h2>
+                <p>這是一個功能完整的個人記帳管理系統，提供簡單易用的線上記帳工具。支援多種資產管理、收支分析、預算規劃等功能，幫助您有效掌握財務狀況。無論是日常開銷記錄、投資理財追蹤，或是家庭財務管理，都能滿足您的需求。</p>
+                <p>我們的記帳工具採用直觀的圖表分析，讓您清楚了解收支結構，並提供多種時間範圍的財務報表，協助您做出更好的理財決策。</p>
+            </section>
 
         <!-- Total Assets Display -->
         <section class="total-assets-section">
+            <h2>財務總覽與資產管理</h2>
             <div class="assets-grid">
                 <div class="asset-card total-assets-card">
                     <div class="asset-icon">💰</div>
@@ -51,13 +96,12 @@
             <div class="asset-controls">
                 <button class="reset-btn" onclick="resetAllData()">🔄 全部歸零</button>
                 <button class="init-btn" onclick="setInitialAssets()">⚙️ 設定初始值</button>
-                <button class="ip-manage-btn" onclick="manageAllIPData()">🌐 管理IP數據</button>
             </div>
         </section>
 
         <!-- Assets Overview Section -->
         <section class="assets-section">
-            <h2>📊 資產管理</h2>
+            <h2>📊 多帳戶資產管理系統</h2>
             <div class="assets-grid">
                 <div class="asset-card" id="bank-card" onclick="quickAddTransaction('bank')">
                     <div class="asset-icon">🏦</div>
@@ -91,7 +135,7 @@
         <!-- Charts Section -->
         <section class="charts-section">
             <div class="charts-header">
-                <h2>📈 支出分析</h2>
+                <h2>📈 收支分析與財務報表</h2>
                 <div class="time-selector">
                     <button class="time-btn active" id="daily-btn" onclick="selectTimeRange('daily')">當日</button>
                     <button class="time-btn" id="monthly-btn" onclick="selectTimeRange('monthly')">當月</button>
@@ -167,6 +211,16 @@
             </div>
         </section>
 
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-content">
+                <h3>關於我們的記帳工具</h3>
+                <p>這是一個免費的線上記帳工具，專為個人和小家庭設計。我們致力於提供簡單易用的理財工具，幫助用戶更好地管理財務狀況。無論您是理財新手還是經驗豐富的投資者，都能從我們的記帳系統中受益。</p>
+                <p>我們的記帳工具支援多種功能，包括收支記錄、資產管理、預算規劃、財務分析等，是您理財路上的好幫手。</p>
+            </div>
+        </footer>
     </div>
 
 
@@ -304,5 +358,41 @@
     </div>
 
     <script src="script.js"></script>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "線上記帳工具 - 個人記帳管理系統",
+        "description": "免費線上記帳工具，提供完整的個人記帳管理系統。支援收支分析、資產管理、預算規劃等功能。簡單易用的理財工具，幫助您有效管理財務狀況。",
+        "url": "https://your-domain.com",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "TWD"
+        },
+        "featureList": [
+            "收支記錄管理",
+            "多帳戶資產追蹤",
+            "財務報表分析",
+            "預算規劃工具",
+            "圖表視覺化",
+            "多時間範圍分析"
+        ],
+        "author": {
+            "@type": "Organization",
+            "name": "個人記帳管理系統"
+        },
+        "inLanguage": "zh-TW",
+        "isAccessibleForFree": true,
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "softwareVersion": "1.0",
+        "datePublished": "2024-01-01",
+        "dateModified": "2024-01-01"
+    }
+    </script>
 </body>
 </html>
