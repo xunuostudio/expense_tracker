@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://expensetracker.nuo-studio.com/sitemap.xml
